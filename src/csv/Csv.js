@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import EditModal from "../editModal/EditModal";
+import Modal from "react-modal";
 import TableRow from "../tableRow/TableRow";
 import "./style.css";
 
 const Csv = ({ csvData, addRow }) => {
   const headerData = Object.keys(Object.assign({}, ...csvData));
- 
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleEdit = (rowData) => {
+    setSelectedRow(rowData);
+    setModalIsOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalIsOpen(false);
+  };
+
   return (
     <>
       {csvData && csvData.length > 0 && (
@@ -24,11 +37,12 @@ const Csv = ({ csvData, addRow }) => {
 
           <tbody>
             {csvData.map((rowData, index) => (
-              <TableRow rowData={rowData} key={index}/>
+              <TableRow rowData={rowData} key={index} handleEdit={handleEdit} />
             ))}
           </tbody>
         </table>
       )}
+      <EditModal modalIsOpen={modalIsOpen}  handleModalClose={handleModalClose}/>
     </>
   );
 };
