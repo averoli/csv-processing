@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Papa from "papaparse";
 import Csv from "./csv/Csv";
-import TableHeaderData from "./TableHeaderData";
+
 
 function App() {
   const [csvData, setCsvData] = useState([]);
@@ -16,10 +16,10 @@ function App() {
       },
     });
   };
-  const headerKeys = Object.keys(Object.assign({}, ...csvData));
+
   const addRow = () => {
-    alert("New row")
-  }
+    alert("New row");
+  };
   // const handleExportCsv = () => {
   //   const csv = Papa.unparse(csvData);
   //   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -36,12 +36,8 @@ function App() {
   return (
     <div className="App">
       <h1>REACTJS CSV IMPORT EXAMPLE </h1>
-
       <input type="file" accept=".csv" onChange={handleFileUpload} />
-      <table>
-        <TableHeaderData headerData={headerKeys} add={addRow}/>
-      </table>
-      {/* <Csv data={csvData} /> */}
+      <Csv csvData={csvData} addRow={addRow} />
       {/* <button onClick={handleExportCsv}>Export CSV</button> */}
     </div>
   );

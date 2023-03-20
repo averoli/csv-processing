@@ -1,58 +1,35 @@
-import React, { useState } from "react";
-import TableHeaderData from "../TableHeaderData";
+import React from "react";
+import TableRow from "../tableRow/TableRow";
 import "./style.css";
-import { GrFormAdd } from "react-icons/gr";
-import TableBodyRow from "../TableBodyRow";
 
-const Csv = ({data}) => {
-
-  const [file, setFile] = useState();
-  const [array, setArray] = useState([]);
-
-  const fileReader = new FileReader();
-
-  const csvFileToArray = (string) => {
-    const csvHeader = string.slice(0, string.indexOf("\n")).split(",");
-    const csvRows = string.slice(string.indexOf("\n") + 1).split("\n");
-
-    const array = csvRows.map((i) => {
-      const values = i.split(",");
-      const obj = csvHeader.reduce((object, header, index) => {
-        object[header] = values[index];
-        return object;
-      }, {});
-      return obj;
-    });
-    setArray(array);
-  };
-
-
-  const headerKeys = Object.keys(Object.assign({}, ...data));
-
+const Csv = ({ csvData, addRow }) => {
+  const headerData = Object.keys(Object.assign({}, ...csvData));
+ 
   return (
-    <div style={{ textAlign: "center" }}>
-      <br />
-      <table>
-        <thead>
-          <tr key={"header"}>
-            {headerKeys.map((headerKey) => (
-              <TableHeaderData headerKey={headerKey} />
-            ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {array.map((item) => (
-            <tr key={item.id}>
-              {Object.values(item).map((val, index) => (
-                <td>{val}</td>
-                // <TableBodyRow key={index} val={val}/>
+    <>
+      {csvData && csvData.length > 0 && (
+        <table>
+          <thead>
+            <tr>
+              {headerData.map((item, i) => (
+                <th key={i}>{item}</th>
               ))}
+              {headerData.length > 0 && (
+                <th>
+                  <button onClick={addRow}>Button</button>
+                </th>
+              )}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+
+          <tbody>
+            {csvData.map((rowData, index) => (
+              <TableRow rowData={rowData} key={index}/>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </>
   );
 };
 
