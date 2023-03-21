@@ -3,7 +3,6 @@ import "./App.css";
 import Papa from "papaparse";
 import Csv from "./csv/Csv";
 
-
 function App() {
   const [csvData, setCsvData] = useState([]);
 
@@ -20,6 +19,7 @@ function App() {
   const addRow = () => {
     alert("New row");
   };
+
   // const handleExportCsv = () => {
   //   const csv = Papa.unparse(csvData);
   //   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });

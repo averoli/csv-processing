@@ -5,13 +5,25 @@ import TableRow from "../tableRow/TableRow";
 import "./style.css";
 
 const Csv = ({ csvData, addRow }) => {
-  const headerData = Object.keys(Object.assign({}, ...csvData));
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  let count = 0;
+  const csvDataWithId = csvData.map((element) => ({
+    id_react: (count += 1),
+    ...element,
+  }));
+  
+  const headerData = Object.keys(Object.assign({}, ...csvDataWithId));
+  const [dataWithId, setDataWithId] = useState(csvDataWithId);
 
   const handleEdit = (rowData) => {
     setSelectedRow(rowData);
     setModalIsOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    setDataWithId(dataWithId.filter((item) => item.id_react !== id));
   };
 
   const handleModalClose = () => {
@@ -20,7 +32,7 @@ const Csv = ({ csvData, addRow }) => {
 
   return (
     <>
-      {csvData && csvData.length > 0 && (
+      {csvDataWithId && csvDataWithId.length > 0 && (
         <table>
           <thead>
             <tr>
@@ -36,13 +48,22 @@ const Csv = ({ csvData, addRow }) => {
           </thead>
 
           <tbody>
-            {csvData.map((rowData, index) => (
-              <TableRow rowData={rowData} key={index} handleEdit={handleEdit} />
+            {csvDataWithId.map((rowData, index) => (
+              <TableRow
+                rowData={rowData}
+                key={index}
+                index={index}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+              />
             ))}
           </tbody>
         </table>
       )}
-      <EditModal modalIsOpen={modalIsOpen}  handleModalClose={handleModalClose}/>
+      <EditModal
+        modalIsOpen={modalIsOpen}
+        handleModalClose={handleModalClose}
+      />
     </>
   );
 };
