@@ -2,9 +2,12 @@ import { useState } from "react";
 import "./App.css";
 import Papa from "papaparse";
 import Csv from "./csv/Csv";
+import EditModal from "./editModal/EditModal";
 
 function App() {
   const [csvData, setCsvData] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedRow, setSelectedRow] = useState({});
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -16,29 +19,38 @@ function App() {
     });
   };
 
-  const addRow = () => {
-    alert("New row");
+  const handleAddRow = () => {
+    setIsEditing(true);
+    setSelectedRow({});
   };
 
-  // const handleExportCsv = () => {
-  //   const csv = Papa.unparse(csvData);
-  //   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  //   const url = URL.createObjectURL(blob);
-  //   const link = document.createElement('a');
-  //   link.setAttribute('href', url);
-  //   link.setAttribute('download', 'data.csv');
-  //   link.style.display = 'none';
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // };
+  const handleSave = (rowData) => {
+    if (rowData.id_react) {
+      // If row has an id, update existing row
+      const updatedData = csvData.map((item) =>
+        item.id_react === rowData.id_react ? rowData : item
+      );
+      setCsvData(updatedData);
+    } else {
+      // If row doesn't have an id, add new row
+      setCsvData([...csvData, { ...rowData, id_react: csvData.length + 1 }]);
+    }
+    setIsEditing(false);
+  };
 
   return (
     <div className="App">
       <h1>REACTJS CSV IMPORT EXAMPLE </h1>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
-      <Csv csvData={csvData} addRow={addRow} />
+      <Csv csvData={csvData} handleAddRow={handleAddRow} handleEdit={setSelectedRow} />
       {/* <button onClick={handleExportCsv}>Export CSV</button> */}
+      {isEditing && (
+        <EditModal
+          rowData={selectedRow}
+          handleSave={handleSave}
+          handleModalClose={() => setIsEditing(false)}
+        />
+      )}
     </div>
   );
 }
