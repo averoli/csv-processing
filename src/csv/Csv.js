@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import TableRow from "../tableRow/TableRow";
+import { FiEdit2, FiDelete } from "react-icons/fi";
+
 import "./style.css";
 
 const Csv = ({ csvData, handleAddRow, handleEdit }) => {
@@ -39,13 +40,23 @@ const Csv = ({ csvData, handleAddRow, handleEdit }) => {
 
           <tbody>
             {dataWithId.map((rowData, index) => (
-              <TableRow
-                rowData={rowData}
-                key={index}
-                index={index}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-              />
+              <tr key={index}>
+                {Object.values(rowData).map((item, index) => (
+                  <td key={index}>{item}</td>
+                ))}
+                <td>
+                  <FiEdit2
+                    className="edit-icon"
+                    onClick={() => handleEdit(rowData)}
+                  />
+                </td>
+                <td>
+                  <FiDelete
+                    className="delete-icon"
+                    onClick={() => handleDelete(rowData.id_react)}
+                  />
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>

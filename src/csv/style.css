@@ -35,5 +35,12 @@ table {
     }
   }
 
+  .edit-icon {
+    color: #FFA400
+}
 
+.delete-icon {
+    color: red;
+    padding: auto
+}
   

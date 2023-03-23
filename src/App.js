@@ -24,6 +24,11 @@ function App() {
     setSelectedRow({});
   };
 
+  const handleEdit = (rowData) => {
+    setSelectedRow(rowData);
+    setIsEditing(true);
+  };
+
   const handleSave = (rowData) => {
     if (rowData.id_react) {
       // If row has an id, update existing row
@@ -42,10 +47,15 @@ function App() {
     <div className="App">
       <h1>REACTJS CSV IMPORT EXAMPLE </h1>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
-      <Csv csvData={csvData} handleAddRow={handleAddRow} handleEdit={setSelectedRow} />
+      <Csv
+        csvData={csvData}
+        handleAddRow={handleAddRow}
+        handleEdit={handleEdit}
+      />
       {/* <button onClick={handleExportCsv}>Export CSV</button> */}
       {isEditing && (
         <EditModal
+          isEditing={isEditing}
           rowData={selectedRow}
           handleSave={handleSave}
           handleModalClose={() => setIsEditing(false)}
