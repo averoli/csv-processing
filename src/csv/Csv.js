@@ -3,27 +3,12 @@ import { FiEdit2, FiDelete } from "react-icons/fi";
 
 import "./style.css";
 
-const Csv = ({ csvData, handleAddRow, handleEdit }) => {
-  const [dataWithId, setDataWithId] = useState([]);
-
-  useEffect(() => {
-    setDataWithId(
-      csvData.map((element, index) => ({
-        id_react: index + 1,
-        ...element,
-      }))
-    );
-  }, [csvData]);
-
-  const headerData = Object.keys(Object.assign({}, ...dataWithId));
-
-  const handleDelete = (id) => {
-    setDataWithId(dataWithId.filter((item) => item.id_react !== id));
-  };
+const Csv = ({ csvData, handleAddRow, deleteRow, editRow }) => {
+  const headerData = Object.keys(Object.assign({}, ...csvData));
 
   return (
     <>
-      {dataWithId && dataWithId.length > 0 && (
+      {csvData && csvData.length > 0 && (
         <table>
           <thead>
             <tr>
@@ -39,7 +24,7 @@ const Csv = ({ csvData, handleAddRow, handleEdit }) => {
           </thead>
 
           <tbody>
-            {dataWithId.map((rowData, index) => (
+            {csvData.map((rowData, index) => (
               <tr key={index}>
                 {Object.values(rowData).map((item, index) => (
                   <td key={index}>{item}</td>
@@ -47,13 +32,13 @@ const Csv = ({ csvData, handleAddRow, handleEdit }) => {
                 <td>
                   <FiEdit2
                     className="edit-icon"
-                    onClick={() => handleEdit(rowData)}
+                    onClick={() => editRow(rowData)}
                   />
                 </td>
                 <td>
                   <FiDelete
                     className="delete-icon"
-                    onClick={() => handleDelete(rowData.id_react)}
+                    onClick={() => deleteRow(rowData.id_react)}
                   />
                 </td>
               </tr>

@@ -14,7 +14,12 @@ function App() {
     Papa.parse(file, {
       header: true,
       complete: (results) => {
-        setCsvData(results.data);
+        setCsvData(
+          results.data.map((element, index) => ({
+            id_react: index + 1,
+            ...element,
+          }))
+        );
       },
     });
   };
@@ -24,7 +29,11 @@ function App() {
     setSelectedRow({});
   };
 
-  const handleEdit = (rowData) => {
+  const deleteRow = (id) => {
+    setCsvData(csvData.filter((item) => item.id_react !== id));
+  };
+
+  const editRow = (rowData) => {
     setSelectedRow(rowData);
     setIsEditing(true);
   };
@@ -50,7 +59,8 @@ function App() {
       <Csv
         csvData={csvData}
         handleAddRow={handleAddRow}
-        handleEdit={handleEdit}
+        editRow={editRow}
+        deleteRow={deleteRow}
       />
       {/* <button onClick={handleExportCsv}>Export CSV</button> */}
       {isEditing && (

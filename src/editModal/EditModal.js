@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 ReactModal.setAppElement("#root");
 
 const EditModal = ({ isEditing, rowData, handleSave, handleModalClose }) => {
+  
   const [editedData, setEditedData] = useState(rowData);
 
   const handleChange = (e) => {
