@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 ReactModal.setAppElement("#root");
 
 const EditModal = ({ isEditing, rowData, handleSave, handleModalClose }) => {
   
-  const [editedData, setEditedData] = useState(rowData);
+  const [editedData, setEditedData] = useState(rowData || {});
+
+  useEffect(() => {
+    setEditedData(rowData || {} );
+  }, [rowData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,13 +24,13 @@ const EditModal = ({ isEditing, rowData, handleSave, handleModalClose }) => {
       <div className="modal-content">
         <h2>{rowData.id_react ? "Edit Row" : "Add Row"}</h2>
 
-        {Object.keys(rowData).map((key) => (
+        {Object.entries(editedData).map(([key, value]) => (
           <div key={key}>
             <label>{key}</label>
             <input
               type="text"
               name={key}
-              value={editedData?.[key] ?? ""}
+              value={value}
               onChange={handleChange}
             />
           </div>

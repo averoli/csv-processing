@@ -3,10 +3,12 @@ import "./App.css";
 import Papa from "papaparse";
 import Csv from "./csv/Csv";
 import EditModal from "./editModal/EditModal";
+import AddRowModal from "./addRowModal/AddRowModal";
 
 function App() {
   const [csvData, setCsvData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
 
   const handleFileUpload = (e) => {
@@ -24,7 +26,7 @@ function App() {
     });
   };
 
-  const handleAddRow = () => {
+  const addRow = () => {
     setIsEditing(true);
     setSelectedRow({});
   };
@@ -54,15 +56,20 @@ function App() {
 
   return (
     <div className="App">
-      <h1>REACTJS CSV IMPORT EXAMPLE </h1>
-      <input type="file" accept=".csv" onChange={handleFileUpload} />
+      <h1 className="title">REACTJS CSV IMPORT EXAMPLE </h1>
+      <input
+        className="file-upload"
+        type="file"
+        accept=".csv"
+        onChange={handleFileUpload}
+      />
       <Csv
         csvData={csvData}
-        handleAddRow={handleAddRow}
+        addRow={addRow}
         editRow={editRow}
         deleteRow={deleteRow}
       />
-      {/* <button onClick={handleExportCsv}>Export CSV</button> */}
+      <button className="export-button">Export CSV</button>
       {isEditing && (
         <EditModal
           isEditing={isEditing}
@@ -71,6 +78,14 @@ function App() {
           handleModalClose={() => setIsEditing(false)}
         />
       )}
+      {/* {isAdding && (
+        <AddRowModal
+          isAdding={isAdding}
+          
+          handleSave={handleSave}
+          handleModalClose={() => setIsEditing(false)}
+        />
+      )} */}
     </div>
   );
 }

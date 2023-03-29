@@ -9,20 +9,26 @@ table {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   }
   
+  thead {
+    background-color: #4caf50;
+    color: #eee;
+    font-weight: bold;
+  }
+
   th, td {
     padding: 10px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #78818B;
   }
   
-  th {
+  /* th {
     background-color: #457B9D;
     color: white;
-  }
+  } */
   
-  tr:hover {
+  /* tr:hover {
     background-color: #A8DADC;
-  }
+  } */
   
   /* Responsive styles */
   @media screen and (max-width: 600px) {
@@ -35,12 +41,27 @@ table {
     }
   }
 
-  .edit-icon {
-    color: #FFA400
-}
-
-.delete-icon {
-    color: red;
-    padding: auto
-}
+  .edit-icon, .delete-icon {
+    cursor: pointer;
+    margin-right: 8px;
+    color: #4caf50;
+  }
   
+  .edit-icon:hover, .delete-icon:hover {
+    color: #232732;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #eeeeee;
+  }
+  
+  tbody tr:hover {
+    background-color: #ffffff;
+  }
+  
+  table caption {
+    color: #232732;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }

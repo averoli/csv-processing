@@ -3,7 +3,8 @@ import { FiEdit2, FiDelete } from "react-icons/fi";
 
 import "./style.css";
 
-const Csv = ({ csvData, handleAddRow, deleteRow, editRow }) => {
+const Csv = ({ csvData, addRow, deleteRow, editRow }) => {
+
   const headerData = Object.keys(Object.assign({}, ...csvData));
 
   return (
@@ -17,7 +18,7 @@ const Csv = ({ csvData, handleAddRow, deleteRow, editRow }) => {
               ))}
               {headerData.length > 0 && (
                 <th>
-                  <button onClick={handleAddRow}>Button</button>
+                  <button onClick={addRow}>Add New</button>
                 </th>
               )}
             </tr>
